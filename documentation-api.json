@@ -1,0 +1,212 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "API для работы с сайтом \"Прораб\"",
+        "description": "Базовая документация",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://cc19244api.tmweb.ru"
+        }
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "x-displayName": "Пользователи",
+            "description": "Методы для работы с пользователями"
+        }
+    ],
+    "paths": {
+        "/token": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Получение токена по логину и паролю",
+                "description": "Авторизация. Получение токена для работы с API",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "description": "Для получения ответа в формате JSON",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "description": "Наш API принимает только JSON запросы",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Login"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Токен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "description": "Статус выполнения",
+                                            "type": "boolean",
+                                            "default": true
+                                        },
+                                        "data": {
+                                            "description": "Объект с данными",
+                                            "type": "object",
+                                            "properties": {
+                                                "access_token": {
+                                                    "description": "API Токен",
+                                                    "type": "string"
+                                                },
+                                                "expires_at": {
+                                                    "description": "Время жизни токена, После этого времени токен становится невалидным",
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "description": "Токен обновления"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "description": "Статус выполнения",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "error": {
+                                            "description": "Объект ошибки",
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "description": "Текст ошибки",
+                                                    "type": "string",
+                                                    "example": "Invalid email or password"
+                                                },
+                                                "code": {
+                                                    "description": "Код ошибки",
+                                                    "type": "integer",
+                                                    "default": 2
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "requestBodies": {
+            "AuthEmailPassword": {
+                "description": "Параметры запроса",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/AuthEmailPassword"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "AuthEmailPassword": {
+                "title": "Название схемы",
+                "required": ["grant_type", "email", "password"],
+                "type": "object",
+                "discriminator": {
+                    "propertyName": "grant_type",
+                    "mapping": {
+                        "password": "#/components/schemas/Auth",
+                        "secret": "#/components/schemas/Secret"
+                    }
+                },
+                "properties": {
+                    "grant_type": {
+                        "description": "Для получения токена с помощью логина и пароля",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Ваш подтвержденный email",
+                        "type": "string",
+                        "example": "test@example.com"
+                    },
+                    "password": {
+                        "description": "Ваш пароль",
+                        "type": "string",
+                        "example": "password"
+                    }
+                }
+            },
+            "Auth": {
+                "title": "Название схемы 2",
+                "required": ["grant_type", "email", "password"],
+                "type": "object",
+                "properties": {
+                    "grant_type": {
+                        "description": "Для получения токена с помощью логина и пароля",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Ваш подтвержденный email",
+                        "type": "string",
+                        "example": "test@example.com"
+                    },
+                    "password": {
+                        "description": "Ваш пароль",
+                        "type": "string",
+                        "example": "password"
+                    }
+                }
+            },
+            "Secret": {
+                "title": "Название схемы 2",
+                "required": ["grant_type", "client_id", "secret"],
+                "type": "object",
+                "properties": {
+                    "grant_type": {
+                        "description": "Для получения токена с помощью логина и пароля",
+                        "type": "string"
+                    },
+                    "client_id": {
+                        "description": "Ваш уникальный идентификатор",
+                        "type": "integer"
+                    },
+                    "secret": {
+                        "description": "Ваш персональный ключ",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

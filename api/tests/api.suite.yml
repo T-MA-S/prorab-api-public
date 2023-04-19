@@ -1,0 +1,17 @@
+actor: ApiTester
+bootstrap: _bootstrap.php
+modules:
+    enabled:
+        - REST:
+                url: http://localhost:8080/index-test.php/
+                depends: Yii2
+                part: JSON
+                configFile: 'config/test.php'
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=prorabapitest'
+            user: 'root'
+            password: 'root'
+        - \Helper\Api
+
+    config:
+        - Yii2
