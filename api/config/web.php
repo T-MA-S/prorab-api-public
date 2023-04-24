@@ -6,10 +6,11 @@ $db = require __DIR__ . "/{$prefix}db.php";
 $urls = require __DIR__ . '/urls.php';
 
 $request_headers        = apache_request_headers();
-$http_origin            = $request_headers['Origin'];
+$http_origin            = "127.0.0.1:8000";
 $allowed_http_origins   = array(
     "http://prorab-app.local",
     "https://prorab-app.local",
+    "127.0.0.1:8000"
 );
 
 if (!in_array($http_origin, $allowed_http_origins)) {

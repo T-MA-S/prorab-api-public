@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=foremango_api',
+    'dsn' => 'mysql:host=db;dbname=foremango_api',
     'username' => 'foremango_api',
     'password' => 'Kg44ve1e75v1Eq4V',
     'charset' => 'utf8',
