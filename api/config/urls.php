@@ -258,6 +258,16 @@ return [
         ],
         [
             'class' => 'yii\rest\UrlRule',
+            'controller' => ['partner-category' => 'partner-category'],
+            'extraPatterns' => [],
+        ],
+        [
+            'class' => 'yii\rest\UrlRule',
+            'controller' => ['partner-element' => 'partner-element'],
+            'extraPatterns' => [],
+        ],
+        [
+            'class' => 'yii\rest\UrlRule',
             'controller' => ['faq-type' => 'faq-type'],
             'extraPatterns' => [],
         ],
