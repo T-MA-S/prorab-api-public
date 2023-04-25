@@ -6,10 +6,10 @@ namespace app\models;
  * This is the model class for table "partner_element".
  *
  * @property int $id
- * @property string|null $name
- * @property string|null $image
- * @property string|null $url
- * @property int|null $category_id
+ * @property string $name
+ * @property string $image
+ * @property string $url
+ * @property int $category_id
  *
  * @property PartnerCategory $category
  */

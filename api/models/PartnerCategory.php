@@ -7,7 +7,7 @@ namespace app\models;
  * This is the model class for table "partner_category".
  *
  * @property int $id
- * @property string|null $category_name
+ * @property string $category_name
  *
  * @property PartnerElement[] $partnerElements
  */
